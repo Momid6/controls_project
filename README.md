@@ -42,7 +42,7 @@ What I worked on during this phase:
 
 - Visualized drone path using predictions (through RK4 simulation plots) and RViz (real time)
 
-### Phase 3 (3 June - 16 July)
+### Phase 3 (3 June - 16 July): Theory
 During this phase, I closely followed the Optimal Control (16-745) course from Carnegie Mellon University. I worked through lecture content and completed several homework assignments. This stage deepened my understanding of control theory, optimization, and trajectory planning.
 
 Key topics and implementations (This list again is non-exhaustive but provides an outlook to how I deepend my understanding of the topics discussed below):
@@ -71,6 +71,6 @@ Formulated constrained optimization problems and solved them using primal-dual i
 Convex Model Predictive Control (MPC):
 I explored MPC and solved the space docking problem through MPC. To implement convex MPC, it is crucial that both the cost function and the constraints are convex, ensuring the optimization problem remains convex. To start, I solved problems by using convex solvers, such as ECOS, to solve for a certain horizon (within the full horizon). After that, I only applied the first optimal control sequence to the next step and simulated forward. This method provides the advantage of using an effecient convex solver while maintaining accuracy through resembling a closed-loop control method. 
 
-### Phase 4 (17 July - Now)
+### Phase 4 (17 July - Now): Application Pt. 2
 During this phase, I am creating generalized programs for control and optimality methods. These programs would be in Julia and Pythbn. Then, I'll be implementing MPC and LQR to my ROS2 Crazyflie drone simulation to compare their effeciency in comparison to PID.
 
