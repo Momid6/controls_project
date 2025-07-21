@@ -1,0 +1,116 @@
+#Note: This is just my course lectures' summaries/notes from lecture 1-9. I wrote this to take these notes as reference for later work. Thus, not everything mentioned in the course is noted here.
+
+Takeaways:
+
+Lecture 1:
+
+We can rewrite continuous-time dynamics problems in many ways and we can include pure control input in the problem.
+
+Manipulator Dynamics Equation is important.
+
+Basically rewriting second law.
+
+Lecture 2:
+We can find equilibrium points by taking the derivative of the state and setting it equal to 0. Once we have the equilibrium points we can then find the stability of certain points by taking the jacobian and if the eigenvalues or the real part of the eigenvalues are negative then stable if any positive then not.
+
+We can use methods to simulate discrete time dynamics and we can check their stability through also jacobian then see what h values results in stable. To be stable, all the moduli of eigenvalues have to be less than 1.
+
+Finally, if we want to simulate discrete time dynamics, it’s better to use backward euler, or even better RK4.
+
+Lecture 3:
+
+This lecture covers root finding problems:
+1. fixed point iteration: basically rearrange the function where the next iteration is your rearranged part of your function. Make sure that the rearranged part’s derivative is less than 1 so that it converges. This is used in gradient descent to find the equilibrium points.
+2. Newton-Raphson method
+
+For minimization, just root finding the gradient; however, there is a catch: using newton’s method find equilibria not necessarily minima so to force it to find the minima just make the hessian positive definite through adding beta*Identity where beta is a parameter until it’s forced to positive definiteness then you can use Newton’s method normally on grad.
+This is called Damped Newton/regularization and it guarantees descent.
+
+We can also use gradient descent where we won’t need to compute hessian.
+
+Lecture 4:
+
+This lecture first covers linear search in order to fix the overshooting problem by adding a condition where:
+α=1
+While f(x+αΔx) > f(x) + b*α*Δx*grad(f(x)):
+α= 0.5*α
+end
+
+Downside: this turns the numerical method from a quadratic to a linear convergence rate however it fixed the overshoot problem.
+
+For constrained optimization, we can use the Lagrangian for analytical solutions where you take the function and add lambda*constraint function to get the Lagrangian with respect to variables and lambda then set the gradient of the Lagrangian to 0 and solve for variables and lambda
+
+However for Newton, when we use constrained optimization we use the KKT system where we have a matrix:
+a11= Hessian of Lagrangian with respect to x
+a12 = Jacobian of constraint function with respect to x
+a21 = Jacobian of constraint function with respect to x
+a22 = 0
+Multiplied by [Δx; λ]
+Equal to
+-[Gradient of Lagrangian with respect to x ; constraint function]
+
+Solving this will give you delta x and delta lambda use them to find next step.
+
+However, one term is expensive to compute in the hessian of the Lagrangian so we just drop it and simply replaced the hessian of the Lagrangian with just the hessian of the function and we call this Gauss-Newton Method
+
+Lecture 5:
+
+For inequality constraints for optimization problems, we use the KKT conditions:
+
+1. grad(f) - grad_x(c(x))λ=0 [Stationarity]
+2. c(x)>=0 [Primal Feasibility] 
+3. λ>=0 [Dual Feasibility]
+4. λ•c(x)=0 [Complementary Feasibility]
+
+If lambda is negative then we flip the sign in the stationarity equation
+
+However you can’t numerically solve this using Newton so we have options:
+1. active set method: guessing which set is the active one and using an equality constrained problem on it. If it doesn’t violate other constraint then that’s your answer. If it does put the violated constraint on the active set.
+2. Penalty method
+3. Interior Point/ Barrier Method: best one so far, replace your inequality with a barrier function usually log
+4. A bit more advanced interior point yields to equations basically: grad(f) - (∂c/∂x)(sqrt(rho))*(e^σ)=0 and c(x) - (sqrt(rho))*(e^σ)=0 and use Newton on that
+
+Lecture 6:
+
+When we do constrained optimization, we are minimizing the Lagrangian with respect to x but maximizing the constrainer with respect to lambda thus the x dimensions are positive definite and the lambda dimensions are negative definite so you must take that into account when you regularize. In the KKT matrix, you will add beta*I in a11 and subtract beta*I in a22
+
+In constrained optimization, rather than doing line search on the objective function you do it on the merit function which could take many forms. 
+Then, use the Armijo rule to prevent overshoot. 
+
+Be careful of the Maratos effect, where in an exact penalty function, you use a high rho which causes the algorithm to sit close to the constraint tightly, increasing the number of iterations needed to reach the target.
+
+Lecture 7:
+
+We have this equation for continuous time for deterministic optimal control:
+
+J[x(t),u(t)]= integral_0_tf(L(x(t),u(t),t)dt + f(x(tf))
+
+And that’s the cost function
+
+We can use discrete time by taking the sum and discrete points of t and then use an integrator
+
+Pontryagin Minimum Principle:
+This is the first order necessary conditions for a deterministic optimal control problem.
+
+Hamiltonian: H(x,u,lambda)= l(x,u) + lambda*f(x,u)
+
+
+Also went over LQR and solved a problem
+
+
+Lecture 8:
+A focus more on LQRs. Solved a double integrator first as an LQR. To make it more simple and not do shooting, we can convert it to a QP problem where our cost function turns into a quadratic and our constraints turns to a linear. We put all our u’s and x’s in “z” column vector. Put all our Q’s and R’s in our H matrix. Rearrange dynamics into C [which includes A, B, -I except for first state x since it’s not optimized], d [which includes -A1x1 and rest 0’s], and z. This gives us Cz=d dynamic constraints. With that, we can use KKT conditions and easily solve the KKT system.
+
+The Ricatti equation is another way of solving the KKT system. You use something of a back substitution with P and K’s recursively.  We can do an infinite horizon LQR by using a constant K and P since they converge.
+
+
+Lecture 9:
+
+Controllability: to know if a system is controllable, we take the controllability matrix and if its rank is less than “n” number of states.
+
+Bellman’s principle is basically sub trajectories of a complete trajectories should follow the same optimal path regardless.
+
+Cost to go function:
+Vk(xk)= min_over_uk [ L(xk,uk)+ Vk+1(xk+1)]
+
+Iterate this over some all time steps and you would get the optimal trajectory.
