@@ -1,4 +1,4 @@
-### Welcome to my Controls Project Repository
+# Welcome to my Controls Project Repository
 
 ## Introduction
 This repository serves as a collection of my work done learning control theory during the summer of 2025. Through it, I provide insights into how I approached and understood key concepts in control theory. You can view my week to week progress over here.
@@ -6,7 +6,7 @@ This repository serves as a collection of my work done learning control theory d
 ## Progress
 I'll document my progress through phases.
 
-# Phase 1 (19-25 May): Learning ROS2
+### Phase 1 (19-25 May): Learning ROS2
 The major focus of this phase was learning ROS 2 (Robot Operating System 2), which I explored through a combination of official ROS 2 tutorials, YouTube videos, and  experimentation.
 
 During this process, I learned (this list is non-exhaustive and generalized):
@@ -27,7 +27,7 @@ During this process, I learned (this list is non-exhaustive and generalized):
 
 - How to use RVIZ
 
-# Phase 2 (26 May - 2 June): Application
+### Phase 2 (26 May - 2 June): Application
 During this phase, I got to learn about and use Gazebo for physics-accurate simulation and Crazyflie. Using my prior knowledge of PID control, I implemented a closed-loop controller to test my understanding of ROS 2 in practice.
 
 What I worked on during this phase:
@@ -42,7 +42,7 @@ What I worked on during this phase:
 
 - Visualized drone path using predictions (through RK4 simulation plots) and RViz (real time)
 
-# Phase 3 (3 June - 16 July)
+### Phase 3 (3 June - 16 July)
 During this phase, I closely followed the Optimal Control (16-745) course from Carnegie Mellon University. I worked through lecture content and completed several homework assignments. This stage deepened my understanding of control theory, optimization, and trajectory planning.
 
 Key topics and implementations (This list again is non-exhaustive but provides an outlook to how I deepend my understanding of the topics discussed below):
@@ -71,6 +71,6 @@ Formulated constrained optimization problems and solved them using primal-dual i
 Convex Model Predictive Control (MPC):
 I explored MPC and solved the space docking problem through MPC. To implement convex MPC, it is crucial that both the cost function and the constraints are convex, ensuring the optimization problem remains convex. To start, I solved problems by using convex solvers, such as ECOS, to solve for a certain horizon (within the full horizon). After that, I only applied the first optimal control sequence to the next step and simulated forward. This method provides the advantage of using an effecient convex solver while maintaining accuracy through resembling a closed-loop control method. 
 
-# Phase 4 (17 July - Now)
+### Phase 4 (17 July - Now)
 During this phase, I am creating generalized programs for control and optimality methods. These programs would be in Julia and Pythbn. Then, I'll be implementing MPC and LQR to my ROS2 Crazyflie drone simulation to compare their effeciency in comparison to PID.
 
