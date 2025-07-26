@@ -1,4 +1,4 @@
-# PID CONTROL SIMULATION
+# CONTROL METHODS SIMULATIONS
 
 ## INTRODUCTION
 This sub-project is a simulation of a crazyflie drone in Gazebo using ROS2. It involves PID, finite- and infite-horizon LQR, convex, and convex_mpc control methods. 
