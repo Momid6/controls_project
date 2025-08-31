@@ -107,21 +107,9 @@ class FlhqrControlNode(Node):
         cmd.linear.y = u_lqr[1]
         cmd.linear.z = u_lqr[2]
         #If the velocity command is greater than the maximum velocity, clamp it to the maximum velocity
-        if( abs(cmd.linear.x) > self.max_vel):
-            if(cmd.linear.x<0):
-                cmd.linear.x = -self.max_vel
-            else:
-                cmd.linear.x = self.max_vel
-        if( abs(cmd.linear.y) > self.max_vel):
-            if(cmd.linear.y<0):
-                cmd.linear.y = -self.max_vel
-            else:
-                cmd.linear.y = self.max_vel
-        if( abs(cmd.linear.z) > self.max_vel):
-            if(cmd.linear.z<0):
-                cmd.linear.z = -self.max_vel
-            else:
-                cmd.linear.z = self.max_vel
+        cmd.linear.x = max(min(cmd.linear.x, self.max_vel), -self.max_vel)
+        cmd.linear.y = max(min(cmd.linear.y, self.max_vel), -self.max_vel)
+        cmd.linear.z = max(min(cmd.linear.z, self.max_vel), -self.max_vel)
         #Publishing the velocity command
         self.publisher.publish(cmd)
         #Displaying the velocity commands

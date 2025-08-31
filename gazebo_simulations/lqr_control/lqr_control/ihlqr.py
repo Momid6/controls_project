@@ -38,7 +38,7 @@ class IhlqrControlNode(Node):
         self.current_x = 0.0
         self.current_y = 0.0
         self.current_z = 0.0
-        #Setting fhlqr stuff
+        #Setting ihlqr stuff
         self.x_goal = np.array([3.0, 3.0, 3.0]) # [x, y, z]
         Ac = np.zeros((3,3))
         Bc = np.identity(3)
@@ -52,8 +52,9 @@ class IhlqrControlNode(Node):
         nx, nu = B.shape
         Q = np.eye(nx)
         R = np.eye(nu)
-        max_iter = 10000
+        max_iter = 100000
         P, self.K = ihlqr(A, B, Q, R, max_iter, tol = 1e-5)
+
         #Odometer Subscriber
         self.subscriber = self.create_subscription(Odometry, '/crazyflie/odom', self.odometry_callback, 10)
         #Velocity Publisher
@@ -93,21 +94,9 @@ class IhlqrControlNode(Node):
         cmd.linear.y = u_lqr[1]
         cmd.linear.z = u_lqr[2]
         #If the velocity command is greater than the maximum velocity, clamp it to the maximum velocity
-        if( abs(cmd.linear.x) > self.max_vel):
-            if(cmd.linear.x<0):
-                cmd.linear.x = -self.max_vel
-            else:
-                cmd.linear.x = self.max_vel
-        if( abs(cmd.linear.y) > self.max_vel):
-            if(cmd.linear.y<0):
-                cmd.linear.y = -self.max_vel
-            else:
-                cmd.linear.y = self.max_vel
-        if( abs(cmd.linear.z) > self.max_vel):
-            if(cmd.linear.z<0):
-                cmd.linear.z = -self.max_vel
-            else:
-                cmd.linear.z = self.max_vel
+        cmd.linear.x = max(min(cmd.linear.x, self.max_vel), -self.max_vel)
+        cmd.linear.y = max(min(cmd.linear.y, self.max_vel), -self.max_vel)
+        cmd.linear.z = max(min(cmd.linear.z, self.max_vel), -self.max_vel)
         #Publishing the velocity command
         self.publisher.publish(cmd)
         #Displaying the velocity commands

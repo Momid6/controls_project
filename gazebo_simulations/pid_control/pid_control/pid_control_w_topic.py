@@ -123,21 +123,9 @@ class PidControlNode(Node):
         cmd.linear.y = k_p * self.error_y + k_i * self.sum_y + k_d * self.derivative_y
         cmd.linear.z = k_p * self.error_z + k_i * self.sum_z + k_d * self.derivative_z
         #If the velocity command is greater than the maximum velocity, clamp it to the maximum velocity
-        if( abs(cmd.linear.x) > self.max_vel):
-            if(cmd.linear.x<0):
-                cmd.linear.x = -self.max_vel
-            else:
-                cmd.linear.x = self.max_vel
-        if( abs(cmd.linear.y) > self.max_vel):
-            if(cmd.linear.y<0):
-                cmd.linear.y = -self.max_vel
-            else:
-                cmd.linear.y = self.max_vel
-        if( abs(cmd.linear.z) > self.max_vel):
-            if(cmd.linear.z<0):
-                cmd.linear.z = -self.max_vel
-            else:
-                cmd.linear.z = self.max_vel
+        cmd.linear.x = max(min(cmd.linear.x, self.max_vel), -self.max_vel)
+        cmd.linear.y = max(min(cmd.linear.y, self.max_vel), -self.max_vel)
+        cmd.linear.z = max(min(cmd.linear.z, self.max_vel), -self.max_vel)
 
         #Publishing the velocity command
         self.publisher.publish(cmd)

@@ -21,6 +21,9 @@ setup(
     entry_points={
         'console_scripts': [
             'convex_mpc_node = convex_mpc.convex_mpc_node:main',
+            'convex_mpc_with_tracking_v2 = convex_mpc.convex_mpc_with_tracking_v2:main',
+            'convex_mpc_with_tracking_v1 = convex_mpc.convex_mpc_with_tracking_v1:main',
+            'convex_mpc_advanced_node = convex_mpc.convex_mpc_advanced_node:main',
         ],
     },
 )

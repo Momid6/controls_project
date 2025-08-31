@@ -61,7 +61,7 @@ class ConvexMpcControlNode(Node):
         self.current_x = 0.0
         self.current_y = 0.0
         self.current_z = 0.0
-        #Setting fhlqr stuff
+        #Setting convex_mpc stuff
         self.x_goal = np.array([3.0, 3.0, 3.0]) # [x, y, z]
         Ac = np.zeros((3,3))
         Bc = np.identity(3)

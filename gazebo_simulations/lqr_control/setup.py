@@ -22,6 +22,8 @@ setup(
         'console_scripts': [
             'fhlqr = lqr_control.fhlqr:main',
             "ihlqr = lqr_control.ihlqr:main",
+            'fhlqr_with_tracking = lqr_control.fhlqr_with_tracking:main',
+            'ihlqr_with_tracking = lqr_control.ihlqr_with_tracking:main',
         ],
     },
 )

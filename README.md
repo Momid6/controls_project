@@ -1,5 +1,7 @@
 # Welcome to my Controls Project Repository
 
+Note: Since I am focusing more on theory, in order to save time, I used high-level commands to control the drone (Controlling the drone through velocity). I acknowledge that through the complete dynamics of a drone, difference would be more profound, and results may even look completely different.
+
 ## Introduction
 This repository serves as a collection of my work done learning control theory during the summer of 2025. Through it, I provide insights into how I approached and understood key concepts in control theory. You can view my week to week progress over here.
 
@@ -71,6 +73,59 @@ Formulated constrained optimization problems and solved them using primal-dual i
 Convex Model Predictive Control (MPC):
 I explored MPC and solved the space docking problem through MPC. To implement convex MPC, it is crucial that both the cost function and the constraints are convex, ensuring the optimization problem remains convex. To start, I solved problems by using convex solvers, such as ECOS, to solve for a certain horizon (within the full horizon). After that, I only applied the first optimal control sequence to the next step and simulated forward. This method provides the advantage of using an effecient convex solver while maintaining accuracy through resembling a closed-loop control method. 
 
-### Phase 4 (17 July - Now): Application Pt. 2
-During this phase, I am creating generalized programs for control and optimality methods. These programs would be in Julia and Pythbn. Then, I'll be implementing MPC and LQR to my ROS2 Crazyflie drone simulation to compare their effeciency in comparison to PID.
+### Phase 4 (17 July - 31 August): Application Pt. 2
+In this phase, I implemented and compared multiple controllers for my ROS 2 Crazyflie drone simulation: PID, Infinite-Horizon LQR (IHLQR), Finite-Horizon LQR (FHLQR), and two forms of Model Predictive Control (MPC): a CVXPY convex MPC and TinyMPC.
 
+Each controller was tested on the same 3D trajectory (a figure-eight pattern at a fixed altitude) using real-time feedback from simulated odometry, and performance was evaluated using tracking error, and control smoothness.
+
+
+## Controllers implemented:
+
+### PID Controller (pid_control_w_tracking.py)
+
+Classic proportional–integral–derivative loop with velocity clamping
+
+Tuned gains: k_p = 0.5, k_i = 0.05, k_d = 0.1
+
+Pros: Simple, very fast; Cons: Less accurate tracking, no explicit handling of constraints, jagged trajectory/not smooth controls
+
+### Finite-Horizon LQR (fhlqr_with_tracking.py)
+
+Uses backward Riccati recursion for a set number of steps
+
+Allows time-varying feedback gains for trajectory tracking
+
+Pros: Improved accuracy over PID, smoother controls, closed-loop, controls update online; Cons: Expensive precomputation required, no handling of constraints (needed to clamp velocity)
+
+### Infinite-Horizon LQR (ihlqr_with_tracking.py)
+
+Solves the algebraic Riccati equation iteratively until convergence
+
+Produces constant gain matrix for optimal linear control
+
+Pros: Improved accuracy over PID, smoother controls, closed-loop, calculations were made offline while the controls update was only online (computaitonally cheap and fast), no need to access different gains; Cons: No handling of constraints (needed to clamp velocity).
+
+
+### Convex MPC (convex_mpc_with_tracking_v3.py)
+
+Custom implementation using CVXPY with an ECOS solver
+
+Formulates trajectory tracking as a constrained quadratic program through solving an optimization problem and taking the first step
+
+Pros: Handles state/control constraints
+
+### TinyMPC (tinmypc.py)
+
+Implemented through user friendly tinympc
+
+Pros: Maintains most of convex MPC’s advantages but with improved solve speed Cons: Worse tracking (I'll look into this more later)
+
+### Key findings from comparison:
+
+Tracking Accuracy: Convex MPC (CVXPY) had the lowest tracking accuracy, followed by (surprisngly) TinyMPC, IHLQR, FHLQR. PID came last.
+
+Control Smoothness: MPC and LQR produced smoother velocity profiles compared to the more aggressive corrections from PID.
+
+Constraint Handling: Only MPC methods explicitly enforced control limits in optimization.
+
+By the end of this phase, I had a complete comparative framework for evaluating controllers on the same trajectory-tracking task.
