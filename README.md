@@ -79,9 +79,9 @@ In this phase, I implemented and compared multiple controllers for my ROS 2 Craz
 Each controller was tested on the same 3D trajectory (a figure-eight pattern at a fixed altitude) using real-time feedback from simulated odometry, and performance was evaluated using tracking error, and control smoothness.
 
 
-## Controllers implemented:
+#### Controllers implemented:
 
-### PID Controller (pid_control_w_tracking.py)
+##### PID Controller (pid_control_w_tracking.py)
 
 Classic proportional–integral–derivative loop with velocity clamping
 
@@ -89,7 +89,7 @@ Tuned gains: k_p = 0.5, k_i = 0.05, k_d = 0.1
 
 Pros: Simple, very fast; Cons: Less accurate tracking, no explicit handling of constraints, jagged trajectory/not smooth controls
 
-### Finite-Horizon LQR (fhlqr_with_tracking.py)
+##### Finite-Horizon LQR (fhlqr_with_tracking.py)
 
 Uses backward Riccati recursion for a set number of steps
 
@@ -97,7 +97,7 @@ Allows time-varying feedback gains for trajectory tracking
 
 Pros: Improved accuracy over PID, smoother controls, closed-loop, controls update online; Cons: Expensive precomputation required, no handling of constraints (needed to clamp velocity)
 
-### Infinite-Horizon LQR (ihlqr_with_tracking.py)
+##### Infinite-Horizon LQR (ihlqr_with_tracking.py)
 
 Solves the algebraic Riccati equation iteratively until convergence
 
@@ -106,7 +106,7 @@ Produces constant gain matrix for optimal linear control
 Pros: Improved accuracy over PID, smoother controls, closed-loop, calculations were made offline while the controls update was only online (computaitonally cheap and fast), no need to access different gains; Cons: No handling of constraints (needed to clamp velocity).
 
 
-### Convex MPC (convex_mpc_with_tracking_v3.py)
+##### Convex MPC (convex_mpc_with_tracking_v3.py)
 
 Custom implementation using CVXPY with an ECOS solver
 
@@ -114,13 +114,13 @@ Formulates trajectory tracking as a constrained quadratic program through solvin
 
 Pros: Handles state/control constraints
 
-### TinyMPC (tinmypc.py)
+##### TinyMPC (tinmypc.py)
 
 Implemented through user friendly tinympc
 
 Pros: Maintains most of convex MPC’s advantages but with improved solve speed Cons: Worse tracking (I'll look into this more later)
 
-### Key findings from comparison:
+##### Key findings from comparison:
 
 Tracking Accuracy: Convex MPC (CVXPY) had the lowest tracking accuracy, followed by (surprisngly) TinyMPC, IHLQR, FHLQR. PID came last.
 
