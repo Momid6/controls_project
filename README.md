@@ -130,9 +130,5 @@ Controllers implemented:
 
             By the end of this phase, I had a complete comparative framework for evaluating controllers on the same trajectory-tracking task.
 
-BIG DRAWBACK HOWEVER WAS THAT I PROVIDED THE CONTROLLER WITH SMALL STATE DIMENSIONS. THUS, IT DOESN'T COMPLETELY PRESENT TINYMPC's ADVANTAGES. TO SOLVE THIS PROBLEM... I WILL NOW EXPLORE TINYMPC
-
-### Phase 5 (1 September - Now): Exploring TinyMPC
-In this phase, I will explore how TinyMPC exactly works, and I will try to provide a test case that can fairly compare all control methods.
-        1) I proved the Riccati recursion through the hamiltonian.
+BIG DRAWBACK HOWEVER WAS THAT I PROVIDED THE CONTROLLER WITH SMALL STATE DIMENSIONS. THUS, IT DOESN'T COMPLETELY PRESENT TINYMPC's ADVANTAGES. TO SOLVE THIS PROBLEM, I'LL PROVIDE ALL THESE METHODS WITH A MORE COMPLICATED SYSTEM
         
