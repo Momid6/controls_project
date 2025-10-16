@@ -74,7 +74,7 @@ Convex Model Predictive Control (MPC):
 I explored MPC and solved the space docking problem through MPC. To implement convex MPC, it is crucial that both the cost function and the constraints are convex, ensuring the optimization problem remains convex. To start, I solved problems by using convex solvers, such as ECOS, to solve for a certain horizon (within the full horizon). After that, I only applied the first optimal control sequence to the next step and simulated forward. This method provides the advantage of using an effecient convex solver while maintaining accuracy through resembling a closed-loop control method. 
 
 ### Phase 4 (17 July - 31 August): Application Pt. 2
-In this phase, I implemented and compared multiple controllers for my ROS 2 Crazyflie drone simulation: PID, Infinite-Horizon LQR (IHLQR), Finite-Horizon LQR (FHLQR), and two forms of Model Predictive Control (MPC): a CVXPY convex MPC and TinyMPC.
+In this phase, I implemented and compared multiple controllers for my ROS 2 Crazyflie drone simulation: PID, Infinite-Horizon LQR (IHLQR), Finite-Horizon LQR (FHLQR), and a form of Model Predictive Control (MPC): a CVXPY convex MPC 
 
 Each controller was tested on the same 3D trajectory (a figure-eight pattern at a fixed altitude) using real-time feedback from simulated odometry, and performance was evaluated using tracking error, and control smoothness.
 
@@ -114,15 +114,9 @@ Controllers implemented:
 
             Pros: Handles state/control constraints
 
-    TinyMPC (tinmypc.py):
-
-            Implemented through user friendly tinympc
-
-            Pros: Maintains most of convex MPC’s advantages but with improved solve speed Cons: Worse tracking (I'll look into this more later)
-
     Key findings from comparison:
 
-            Tracking Accuracy: Convex MPC (CVXPY) had the lowest tracking accuracy, followed by (surprisngly) TinyMPC, IHLQR, FHLQR. PID came last.
+            Tracking Accuracy: Convex MPC (CVXPY) had the lowest tracking accuracy, followed by (surprisngly) IHLQR, FHLQR. PID came last.
 
             Control Smoothness: MPC and LQR produced smoother velocity profiles compared to the more aggressive corrections from PID.
 
