@@ -8,7 +8,5 @@ Final Average Tracking Error: 1.118357095419075
 Final Average Tracking Error: 0.9568092379715712
 ### IHLQR:
 Final Average Tracking Error: 0.9838802979714673
-### TinyMPC:
-Final Average Tracking Error: 0.9536824229629424
 ### Convex MPC (CVXPY):
 Final Average Tracking Error: 0.5767811898811706
